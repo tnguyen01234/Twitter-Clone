@@ -13,6 +13,7 @@ import {
   getDoc,
   getDocs,
   addDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Avatar, Button } from "@mui/material";
@@ -23,16 +24,10 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
-
- 
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const { docs } = await getDocs(collection(db, "posts"));
-      setPosts(docs.map((elem) => ({ ...elem.data(), id: elem.id })));
-    };
-    fetchData()
-  }, [createPost]);
+  const current = new Date();
+  const time = current.toLocaleTimeString("en-US", {
+    timeZone: "Australia/Melbourne",
+  });
 
   function createPost(e) {
     e.preventDefault();
@@ -46,6 +41,26 @@ export default function Feed() {
         "https://scontent.fmel15-2.fna.fbcdn.net/v/t39.30808-6/285495518_7522865197786890_3861121252250812987_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=RAbHbrC_9UkAX8vhaxV&tn=177IfN52zZcuJZLi&_nc_ht=scontent.fmel15-2.fna&oh=00_AfA95aXpz-_TH1DecI1La7z3ajiSObfWVnAWGKsWL_fBOQ&oe=639F8D37",
     };
     addDoc(collection(db, "posts"), post);
+
+    const fetchData = async () => {
+      const { docs } = await getDocs(collection(db, "posts"));
+      setPosts(docs.map((elem) => ({ ...elem.data(), id: elem.id })));
+    };
+    fetchData();
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { docs } = await getDocs(collection(db, "posts"));
+      setPosts(docs.map((elem) => ({ ...elem.data(), id: elem.id })));
+    };
+    fetchData();
+  }, []);
+
+  function deletePost(id) {
+    const postRef = doc(db, "posts", id);
+    deleteDoc(postRef);
+  
   }
 
   return (
@@ -77,17 +92,17 @@ export default function Feed() {
         </form>
       </div>
       <FlipMove>
-      {posts.map((post) => (
-        <Post
-          displayName={post.displayName}
-          username={post.username}
-          verified={post.verified}
-          text={post.text}
-          image={post.image}
-          avatar={post.avatar}
-          id={post.id}
-        />
-      ))}
+        {posts.map((post) => (
+          <Post
+            displayName={post.displayName}
+            username={post.username}
+            verified={post.verified}
+            text={post.text}
+            image={post.image}
+            avatar={post.avatar}
+            
+          />
+        ))}
       </FlipMove>
     </div>
   );

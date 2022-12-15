@@ -1,5 +1,5 @@
 import { Avatar } from "@mui/material";
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import "./css/Post.css";
 
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
@@ -8,16 +8,16 @@ import RepeatIcon from "@mui/icons-material/Repeat";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PublishIcon from "@mui/icons-material/Publish";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { deleteDoc, doc } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 
 const Post = forwardRef(({ 
-    displayName, username, verified, text, image, avatar, id 
+    displayName, username, verified, text, image, avatar, id, deletePost
 }, ref) => {
-    function deletePost() {
-      const postRef = doc(db, "posts", id);
-      deleteDoc(postRef);
-    }
+    const [posts, setPosts] = useState([]);
+
+
+  
 
     return (
       <div className="post" ref={ref}>
@@ -34,10 +34,15 @@ const Post = forwardRef(({
                   {username}
                 </span>
               </h3>
+              <div className="bin__time">
+                <p className="time">
+
+                </p>
               <DeleteForeverIcon
                 className="delete__icon"
                 onClick={deletePost}
               />
+              </div>
             </div>
             <div className="post__headerDescription">
               <p>{text}</p>
