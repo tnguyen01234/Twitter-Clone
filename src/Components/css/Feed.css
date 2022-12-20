@@ -1,27 +1,131 @@
 .feed::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .feed {
-    flex: 0.4;
-    border-right: 1px solid var(--twitter-background);
-    min-width: fit-content;
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  flex: 0.6;
+  border-right: 1px solid var(--twitter-background);
+  min-width: fit-content;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-
 .feed__header {
-    position: sticky;
-    top: 0;
-    background-color: white;
-    z-index: 100;
-    border: 1px solid var(--twitter-background);
-    padding: 15px 20px;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 100;
+  border: 1px solid var(--twitter-background);
+  padding: 15px 20px;
 }
 
 .feed__header > h2 {
-    font-size: 20px;
-    font-weight: 800;
+  font-size: 20px;
+  font-weight: 800;
 }
+
+.btn__container {
+  display: flex;
+}
+
+.btn {
+  margin-right: 24px !important;
+  margin-left: 24px !important;
+  background-color: var(--twitter-color) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 900 !important;
+  text-transform: inherit !important;
+  border-radius: 9999px !important;
+}
+
+.modal__signUp {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px;
+  height: 710px;
+  box-shadow: 0 20px 80px 0 rgb(0, 0, 0, 0.55);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+z-index: 60;
+  transition: visibility 3s, z-index 0.4s, box-shadow 0.05s ease;
+  background-color: var(--twitter-color);
+  align-items: center;
+  justify-content: center;
+}
+
+
+.signUp__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signUp__container > form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.signUp__container > h1 {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.twitter__img {
+    width: 56px;
+    align-items: center;
+    margin-left: 24px;
+}
+
+.signUp__input {
+    margin: 24px 0px;
+    flex: 1;
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    padding: 6px 30px;
+}
+
+.reverse__btn {
+    background-color: white !important;
+    color: var(--twitter-color) !important;
+    margin-top: 18px !important;
+}
+
+.closeIcon {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: white;
+    font-size: 24px;
+    z-index: 100;
+    cursor: pointer;
+}
+
+
+.modal__signIn {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    height: 710px;
+    box-shadow: 0 20px 80px 0 rgb(0, 0, 0, 0.55);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+  z-index: 60;
+    transition: visibility 3s, z-index 0.4s, box-shadow 0.05s ease;
+    background-color: var(--twitter-color);
+    align-items: center;
+    justify-content: center;
+  }

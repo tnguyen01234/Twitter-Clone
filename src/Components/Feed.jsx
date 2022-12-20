@@ -13,12 +13,15 @@ import {
   getDoc,
   getDocs,
   addDoc,
-  deleteDoc,
 } from "firebase/firestore";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Avatar, Button } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import image from "../assets/IMG_4691.JPG";
 import FlipMove from "react-flip-move";
+import { Close } from "@mui/icons-material";
+import { SignUp } from "./SignUp";
+import { SignIn } from "./SignIn";
 
 export default function Feed() {
   const [posts, setPosts] = useState([]);
@@ -28,6 +31,16 @@ export default function Feed() {
   const time = current.toLocaleTimeString("en-US", {
     timeZone: "Australia/Melbourne",
   });
+  const [signUp, setSignUp] = useState(false);
+  const [signIn, setSignIn] = useState(false);
+
+  const handleClickSignUp = (event) => {
+    setSignUp((current) => !current);
+  };
+
+  const handleClickSignIn = (event) => {
+    setSignIn((current) => !current);
+  };
 
   function createPost(e) {
     e.preventDefault();
@@ -57,19 +70,29 @@ export default function Feed() {
     fetchData();
   }, []);
 
-  function deletePost(id) {
-    const postRef = doc(db, "posts", id);
-    deleteDoc(postRef);
-  
-  }
-
   return (
     <div className="feed">
+{ signUp?  <SignUp /> : null}
+{ signIn?  <SignIn /> : null}
       <div className="feed__header">
         <h2>Home</h2>
       </div>
       <div className="tweetBox">
-        <form action="">
+        <div className="btn__container">
+          <Button variant="outlined" className="btn" fullWidth
+           onClick={handleClickSignIn}>
+            Sign In
+          </Button>
+          <Button
+            variant="outlined"
+            className="btn"
+            onClick={handleClickSignUp}
+            fullWidth
+          >
+            Sign Up
+          </Button>
+        </div>
+        {/* <form action="">
           <div className="tweetBox__input">
             <Avatar src={image} />
             <input
@@ -89,7 +112,7 @@ export default function Feed() {
           <Button onClick={createPost} type="submit" className="tweetBox__btn">
             Tweet
           </Button>
-        </form>
+        </form> */}
       </div>
       <FlipMove>
         {posts.map((post) => (
@@ -100,7 +123,7 @@ export default function Feed() {
             text={post.text}
             image={post.image}
             avatar={post.avatar}
-            
+            id={post.id}
           />
         ))}
       </FlipMove>

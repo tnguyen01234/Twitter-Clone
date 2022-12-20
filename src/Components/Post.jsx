@@ -12,12 +12,13 @@ import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 
 const Post = forwardRef(({ 
-    displayName, username, verified, text, image, avatar, id, deletePost
+    displayName, username, verified, text, image, avatar, id 
 }, ref) => {
-    const [posts, setPosts] = useState([]);
 
-
-  
+     function deletePost() {
+      const postRef = doc(db, "posts", id);
+      deleteDoc(postRef)
+    }
 
     return (
       <div className="post" ref={ref}>
