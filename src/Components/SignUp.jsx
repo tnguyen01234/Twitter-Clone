@@ -35,6 +35,7 @@ export const SignUp = ({ closeModal }) => {
         userName: userName,
         avatar: imgUrl,
       });
+
     } catch (error) {
       console.log(error);
     }

@@ -29,6 +29,7 @@ export default function Feed() {
   const [profile, setProfile] = useState([]);
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
+  const [image, setImage] = useState('')
   const current = new Date();
   const time = current.toLocaleTimeString("en-US", {
     timeZone: "Australia/Melbourne",
@@ -39,11 +40,11 @@ export default function Feed() {
 
   useEffect(() => {
     async function getProfileById() {
-      const hardcodedID = "aWZo1ywDkjaK9mFdas0mzwW9Lu43";
-      const profRef = doc(db, "users", hardcodedID);
+      const profRef = doc(db, "users", user.email);
       const profSnap = await getDoc(profRef);
       const prof = profSnap.data();
       console.log(prof);
+      setImage(prof.avatar)
     }
     getProfileById()
     console.log(user)
@@ -57,16 +58,19 @@ export default function Feed() {
     fetchData();
   }, []);
 
-  function createPost(e) {
+  async function createPost(e) {
     e.preventDefault();
+      const profRef = doc(db, "users", user.email);
+      const profSnap = await getDoc(profRef);
+      const prof = profSnap.data();
+      console.log(prof);
     const post = {
-      displayName: user.email,
-      username: "dragon",
+      displayName: prof.fullName,
+      username: prof.userName,
       verified: true,
       text: tweetMessage,
       image: tweetImage,
-      avatar:
-        "https://scontent.fmel15-2.fna.fbcdn.net/v/t39.30808-6/285495518_7522865197786890_3861121252250812987_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=RAbHbrC_9UkAX8vhaxV&tn=177IfN52zZcuJZLi&_nc_ht=scontent.fmel15-2.fna&oh=00_AfA95aXpz-_TH1DecI1La7z3ajiSObfWVnAWGKsWL_fBOQ&oe=639F8D37",
+      avatar: prof.avatar,
       uid: user.uid,
     };
     addDoc(collection(db, "posts"), post);
@@ -83,7 +87,8 @@ export default function Feed() {
       {user?.email ? (
         <form className="tweetBox" action="">
           <div className="tweetBox__input">
-            <Avatar src={null} />
+            {}
+            <Avatar src={image} />
             <input
               value={tweetMessage}
               className="coloured__input"
