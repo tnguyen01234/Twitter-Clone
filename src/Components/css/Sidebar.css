@@ -22,3 +22,7 @@
     text-transform: inherit !important;
     border-radius: 9999px  !important;
 }
+
+.log__out {
+    margin-top: 24px !important;
+}

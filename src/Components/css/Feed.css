@@ -12,7 +12,6 @@
 }
 
 .feed__header {
-  position: sticky;
   top: 0;
   background-color: white;
   z-index: 100;
@@ -98,6 +97,9 @@ z-index: 60;
     background-color: white !important;
     color: var(--twitter-color) !important;
     margin-top: 18px !important;
+    max-width: 280px !important;
+    width: 100% !important;
+    margin-bottom: 48px !important;
 }
 
 .closeIcon {
@@ -129,3 +131,84 @@ z-index: 60;
     align-items: center;
     justify-content: center;
   }
+
+  .input__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .input__container--hidden {
+    visibility: hidden;
+  }
+
+.account__detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  padding-top: 100px;
+  visibility: hidden;
+}
+
+.account__detail--visible {
+  visibility: visible;
+}
+
+.twitter__title {
+position: sticky;
+
+}
+
+
+  .need__help {
+    cursor: pointer;
+    margin-left: 64px;
+  }
+
+  .input__text {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sign__up--text {
+    margin-top: 48px;
+  }
+
+  .sign__up--word {
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+  }
+
+  .refresh__icon {
+    position: absolute;
+    animation: spinner 650ms infinite linear;
+z-index: -1;
+  }
+
+  .refresh__icon--visible {
+    z-index: 1;
+  }
+
+  .signUp__text {
+    z-index: 1;
+  }
+
+  .signUp__text--invisible {
+    visibility: hidden;
+  }
+
+
+    @keyframes spinner {
+        0% {
+            transform: rotate(0);
+        }
+    
+        100% {
+            transform: rotate(360deg);
+        }
+    
+    }

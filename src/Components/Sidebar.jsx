@@ -11,8 +11,25 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { Button } from '@mui/material';
+import { UserAuth } from '../context/AuthContext';
+import { Navigate, useNavigate } from 'react-router-dom';
+
+
 
 export default function Sidebar() {
+  const { user, logOut } = UserAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      await logOut();
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
   return (
     <div className='sidebar'>
         <TwitterIcon className='sidebar__twittericon'/>
@@ -26,6 +43,7 @@ export default function Sidebar() {
         <SidebarOption Icon={<MoreHorizIcon />} text="More" />
 
 <Button variant='outlined' className='sidebar__tweet' fullWidth>Tweet</Button>
+{user?.email ? (<Button variant='outlined' className='sidebar__tweet log__out' onClick={handleLogout} fullWidth>Sign Out</Button>) : null}
     </div>
   )
 }

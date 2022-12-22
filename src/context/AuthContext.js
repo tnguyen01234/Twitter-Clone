@@ -1,4 +1,4 @@
-import {
+ import {
   createContext,
   useContext,
   useEffect,
@@ -20,11 +20,6 @@ export function AuthContextProvider({ children }) {
 
   function signUp(email, password) {
      createUserWithEmailAndPassword(auth, email, password );
-     setDoc(doc(db, 'users', email), {
-        FullName: '',
-        UserName: '',
-        ImageURL: ''
-     })
   }
 
   function logIn(email, password) {

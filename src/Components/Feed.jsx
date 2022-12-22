@@ -22,36 +22,52 @@ import FlipMove from "react-flip-move";
 import { Close } from "@mui/icons-material";
 import { SignUp } from "./SignUp";
 import { SignIn } from "./SignIn";
+import { UserAuth } from "../context/AuthContext";
 
 export default function Feed() {
   const [posts, setPosts] = useState([]);
+  const [profile, setProfile] = useState([]);
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
   const current = new Date();
   const time = current.toLocaleTimeString("en-US", {
     timeZone: "Australia/Melbourne",
   });
-  const [signUp, setSignUp] = useState(false);
-  const [signIn, setSignIn] = useState(false);
+  const [signUpBtn, setSignUp] = useState(false);
+  const [signInBtn, setSignIn] = useState(false);
+  const { user, logOut } = UserAuth();
 
-  const handleClickSignUp = (event) => {
-    setSignUp((current) => !current);
-  };
+  useEffect(() => {
+    async function getProfileById() {
+      const hardcodedID = "aWZo1ywDkjaK9mFdas0mzwW9Lu43";
+      const profRef = doc(db, "users", hardcodedID);
+      const profSnap = await getDoc(profRef);
+      const prof = profSnap.data();
+      console.log(prof);
+    }
+    getProfileById()
+    console.log(user)
+  }, [user]);
 
-  const handleClickSignIn = (event) => {
-    setSignIn((current) => !current);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const { docs } = await getDocs(collection(db, "posts"));
+      setPosts(docs.map((elem) => ({ ...elem.data(), id: elem.id })));
+    };
+    fetchData();
+  }, []);
 
   function createPost(e) {
     e.preventDefault();
     const post = {
-      displayName: "Tommy Nguyen",
-      username: "drlancer999",
+      displayName: user.email,
+      username: "dragon",
       verified: true,
       text: tweetMessage,
       image: tweetImage,
       avatar:
         "https://scontent.fmel15-2.fna.fbcdn.net/v/t39.30808-6/285495518_7522865197786890_3861121252250812987_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=RAbHbrC_9UkAX8vhaxV&tn=177IfN52zZcuJZLi&_nc_ht=scontent.fmel15-2.fna&oh=00_AfA95aXpz-_TH1DecI1La7z3ajiSObfWVnAWGKsWL_fBOQ&oe=639F8D37",
+      uid: user.uid,
     };
     addDoc(collection(db, "posts"), post);
 
@@ -62,39 +78,12 @@ export default function Feed() {
     fetchData();
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { docs } = await getDocs(collection(db, "posts"));
-      setPosts(docs.map((elem) => ({ ...elem.data(), id: elem.id })));
-    };
-    fetchData();
-  }, []);
-
   return (
     <div className="feed">
-{ signUp?  <SignUp /> : null}
-{ signIn?  <SignIn /> : null}
-      <div className="feed__header">
-        <h2>Home</h2>
-      </div>
-      <div className="tweetBox">
-        <div className="btn__container">
-          <Button variant="outlined" className="btn" fullWidth
-           onClick={handleClickSignIn}>
-            Sign In
-          </Button>
-          <Button
-            variant="outlined"
-            className="btn"
-            onClick={handleClickSignUp}
-            fullWidth
-          >
-            Sign Up
-          </Button>
-        </div>
-        {/* <form action="">
+      {user?.email ? (
+        <form className="tweetBox" action="">
           <div className="tweetBox__input">
-            <Avatar src={image} />
+            <Avatar src={null} />
             <input
               value={tweetMessage}
               className="coloured__input"
@@ -112,8 +101,43 @@ export default function Feed() {
           <Button onClick={createPost} type="submit" className="tweetBox__btn">
             Tweet
           </Button>
-        </form> */}
-      </div>
+        </form>
+      ) : (
+        <div>
+          {signUpBtn && <SignUp closeModal={setSignUp} />}
+          {signInBtn && (
+            <SignIn closeModal={setSignIn} openSignUp={setSignUp} />
+          )}
+          <div className="feed__header">
+            <h2>Home</h2>
+          </div>
+          <div className="tweetBox">
+            <div className="btn__container">
+              <Button
+                variant="outlined"
+                className="btn"
+                fullWidth
+                onClick={() => {
+                  setSignIn(true);
+                }}
+              >
+                Sign In
+              </Button>
+              <Button
+                variant="outlined"
+                className="btn"
+                onClick={() => {
+                  setSignUp(true);
+                }}
+                fullWidth
+              >
+                Sign Up
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <FlipMove>
         {posts.map((post) => (
           <Post
