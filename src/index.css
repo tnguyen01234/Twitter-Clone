@@ -50,10 +50,6 @@ code {
 @media (max-width: 1120px) {
   .widgets {
     display: none;
-    flex: 0;
-  }
-  .feed {
-    max-width: 680px;
   }
   
 }
@@ -74,5 +70,11 @@ code {
 }
 .modal__signUp {
   max-width: 550px;
+}
+}
+
+@media (max-width: 620px) {
+.feed {
+  max-width: fit-content;
 }
 }
