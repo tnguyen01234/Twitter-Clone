@@ -43,11 +43,9 @@ export default function Feed() {
       const profRef = doc(db, "users", user.email);
       const profSnap = await getDoc(profRef);
       const prof = profSnap.data();
-      console.log(prof);
       setImage(prof.avatar)
     }
     getProfileById()
-    console.log(user)
   }, [user]);
 
   useEffect(() => {

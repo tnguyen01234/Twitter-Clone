@@ -5,7 +5,7 @@ export default function SidebarOption({ text, Icon, active }) {
   return (
     <div className={`sidebarOption ${active && "sidebarOption--active"}`}>
         <div className='sidebar__icon'>{Icon}</div>
-        <h2>{text}</h2>
+        <h2 className='sidebar__option'>{text}</h2>
     </div>
   )
 }

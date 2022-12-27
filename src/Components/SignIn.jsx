@@ -36,7 +36,7 @@ export const SignIn = ({ closeModal, openSignUp }) => {
     <div className="modal__signIn">
       <CloseIcon className="closeIcon" onClick={() => closeModal(false)} />
       <div className="signUp__container">
-        <h1>
+        <h1 className="login__sign">
           Log In to Twitter
           <img
             className="twitter__img"
